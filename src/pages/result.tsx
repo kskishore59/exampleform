@@ -53,14 +53,18 @@ const ResultPage: React.FunctionComponent<IPageProps> = props => {
           </li>
         </ul>
       </nav>
-      <ul>
-           <li className='list'>firstName: {firstName}</li>
-           <li className='list'>lastName: {lastName}</li>
+      <br/>
+      <br/>
+      <div className='d-flex align-items-center justify-content-center'>
+      <ul className='text-start d-flex flex-column align-items-start' style={{}}>
+           <li className='list'>First Name: {firstName}</li>
+           <li className='list'>Last Name: {lastName}</li>
            <li className='list'>DOB: {dob}</li>
            <li className='list'>Gender: {gender}</li>
            <li className='list'>Phone Number: {phoneNumber}</li>
-           <li className='list'>Address: <br/> doorNo : {address.doorNo} , street: {address.street}, Zip Code: {address.zipCode}</li>
+           <li className='list'>Address:  doorNo : {address.doorNo} , street: {address.street}, Zip Code: {address.zipCode}</li>
         </ul>
+        </div>
     </div>
     </>
         
