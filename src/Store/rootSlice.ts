@@ -20,7 +20,7 @@ export interface Step1 {
     lastName: string
 }
 
-export interface StepTwo {
+export interface Step2 {
     panNumber : string,
     annualIncome: string,
     phoneNumber: string,
@@ -37,7 +37,7 @@ export interface Step3{
 }
 
 
-const initialState = {
+export const initialState = {
     yourDetails: {
     firstName: '',
     lastName: '',
@@ -51,7 +51,7 @@ const initialState = {
 }
 
 
-type Action = {type: "UPDATE_DETAILS", payload: Step1 | StepTwo | Step3}
+type Action = {type: string, payload: Step1 | Step2 | Step3 | UserDetails}
 
 export const reducer = (state:UserDetails = initialState, action : Action) => {
     switch(action.type){
@@ -62,7 +62,9 @@ export const reducer = (state:UserDetails = initialState, action : Action) => {
                   ...state.yourDetails,
                   ...action.payload,
                 }
-              };
+              }
+        case 'RESET_DETAILS':
+            return initialState
         default:
             return state
     }

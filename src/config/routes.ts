@@ -1,12 +1,15 @@
 import IRoute from "../interfaces/route";
-import ForgotPasswordPage from "../pages/auth/forgot";
+
 import LoginPage from "../pages/auth/login";
 import LogoutPage from "../pages/auth/logout";
 import RegisterPage from "../pages/auth/register";
-import HomePage from "../pages/home";
-import StepTwoPage from '../pages/Step2';
+import HomePage from "../pages/StepOne";
+import StepTwoPage from '../pages/StepTwo';
 import StepThree from '../pages/StepThree';
-import ResultPage from '../pages/result';
+import ResultPage from "../pages/result";
+import ForgotPasswordPage from "../pages/auth/forgot";
+
+
 
 const routes: IRoute[] = [
     {
@@ -62,7 +65,7 @@ const routes: IRoute[] = [
         path: '/result',
         exact: true,
         component: ResultPage,
-        name: 'Step Three Page',
+        name: 'Result Page',
         protected: true
     }
 ];

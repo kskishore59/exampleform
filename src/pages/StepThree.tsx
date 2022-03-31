@@ -1,27 +1,22 @@
+import MenuIcon from '@mui/icons-material/Menu';
 import { Box } from '@mui/material';
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { auth } from '../config/firebase';
-import IPageProps from '../interfaces/page';
 import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import React, { useEffect } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Label } from 'reactstrap';
 import '../components/Styles/styles.css';
-import {useSelector, useDispatch} from 'react-redux';
-import { Step1, Step3, UserDetails } from '../rootSlice';
-import { SubmitHandler, useForm,  } from 'react-hook-form';
-import { useHistory } from "react-router-dom";
-import { Field, reduxForm } from 'redux-form';
-import TextField from 'material-ui/TextField';
-import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
-import Checkbox from 'material-ui/Checkbox';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-import { Input, Label } from 'reactstrap';
-import { AppDispatch } from '../store';
+import { auth } from '../config/firebase';
+import IPageProps from '../interfaces/page';
+import { Step3, UserDetails } from '../Store/rootSlice';
+import { AppDispatch } from '../Store/store';
+import TextField from '@mui/material/TextField';
+import { Stepper } from './Stepper';
 
 
 
@@ -29,6 +24,7 @@ const StepThree: React.FunctionComponent<IPageProps> = props => {
     const location = useLocation()
     const dispatch: AppDispatch = useDispatch();
     const details = useSelector<UserDetails, UserDetails['yourDetails']>((state) => state.yourDetails)
+    const {firstName, lastName, gender, phoneNumber, annualIncome, dob} = details
     const {doorNo, street, zipCode} = details.address
     const { handleSubmit, register } = useForm<Step3>({
         defaultValues: {address: {doorNo, street, zipCode}}
@@ -36,6 +32,16 @@ const StepThree: React.FunctionComponent<IPageProps> = props => {
 
 
     const { push } = useHistory();
+
+    useEffect(() => {
+      if (!gender || !phoneNumber || !annualIncome || !dob){
+          push('./step2')
+      }
+    })
+
+    const onClickBack = () => {
+      push('./step2')
+    }
 
     const onSubmit: SubmitHandler<Step3> = (data) => {
         console.log(data)
@@ -62,52 +68,68 @@ const StepThree: React.FunctionComponent<IPageProps> = props => {
           <Button style={{color: 'white'}}><Link to="/logout" style={{color: 'white', textDecoration: 'none', transform: 'scale(1.0)'}}>LOGOUT</Link></Button>
         </Toolbar>
       </AppBar>
-      <div className='text-center align-items-center bg-white' style={{minHeight: '100vh'}}>
+      <div className=' d-flex flex-column text-center  bg-white' style={{minHeight: '100vh'}}>
             <p>
                 Welcome Home {auth.currentUser?.email}<br />
             </p>
-            <nav className="container d-flex">
-        <ul className="steps d-flex w-100 justify-content-between">
-          <li className={location.pathname === "/" ? "active" : ""}>
-            <Link to="/">Step 1</Link>
-          </li>
-          <li className={location.pathname === "/step2" ? "active" : ""}>
-            <Link to="/step2">Step 2</Link>
-          </li>
-          <li className={location.pathname === "/step3" ? "active" : ""}>
-            <Link to="/step3">Step 3</Link>
-          </li>
-        </ul>
-      </nav>
+            <Stepper />
+      
       <br/>
       <br/>
+
       <div className='form-container' >
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} className="list-card">
       <div className='d-flex flex-column'>
-      <Label htmlFor='doorNo' className="label">Door No: </Label>
-      <input {...register("address.doorNo", { required: true })} />
+      <TextField
+        {...register("address.doorNo", { required: 'Please enter Door No.' })}
+          id="demo-helper-text-misaligned"
+          label="Door No."
+        />
         <br/>
       </div>
       <div className='d-flex flex-column'>
-        <Label htmlFor='street' className="label">Street</Label>
-        <input {...register("address.street", { required: true })} />
+        <TextField
+        {...register("address.street", { required: 'Please enter Street Name' })}
+          id="demo-helper-text-misaligned"
+          label="Street."
+        />
       </div>
       <br/>
       <div className='d-flex flex-column'>
-      <Label htmlFor='zipCode' className="label">Zip Code</Label>
-      <input {...register("address.zipCode", { required: true })} />
+      <TextField
+        {...register("address.zipCode", { required: 'Please enter Zip Code' })}
+          id="demo-helper-text-misaligned"
+          label="Zip Code"
+        />
         <br/>
       </div>
       <br/>
       
     
       <div>
-        <button className='submit-button'  type="submit" >
-          Submit
-        </button>
+      <Button
+        variant="contained"
+        color="primary"
+        type='submit'
+        fullWidth
+      >Submit</Button>
+        <br/>
+        <br/>
+        <Button
+        fullWidth
+        variant="contained"
+        color="primary"
+        type='button'
+        onClick={onClickBack}
+      >Back</Button>
+      </div>
+      <div className='d-flex justify-content-between'>
+     
+      
       </div>
     </form>
     </div>
+      
         </div>
         
     </Box>
@@ -115,3 +137,14 @@ const StepThree: React.FunctionComponent<IPageProps> = props => {
 }                              
 
 export default StepThree;
+
+
+/*<div className='list-card d-flex flex-column align-items-start justify-content-center w-100'>
+<p>Details Filled</p>
+{firstName !== '' ?  (<p>First Name : {firstName}</p>) : ''}
+{lastName !== '' ?  (<p>Last Name : {lastName}</p>) : ''}
+{dob !== '' ?  (<p>Date of Birth : {dob}</p>) : ''}
+{phoneNumber !== '' ?  (<p>Phone Number : {phoneNumber}</p>) : ''}
+{annualIncome !== '' ?  (<p>annualIncome : {annualIncome}</p>) : ''}
+{gender !== '' ?  (<p>Gender : {gender}</p>) : ''}
+</div> */

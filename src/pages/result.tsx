@@ -1,22 +1,29 @@
-import { useSelector } from 'react-redux';
-import IPageProps from '../interfaces/page';
-import { UserDetails } from '../rootSlice';
-import { Link, useLocation } from 'react-router-dom';
-import { auth } from '../config/firebase';
+import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import '../components/Styles/styles.css'
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory, useLocation } from 'react-router-dom';
+import '../components/Styles/styles.css';
+import { auth } from '../config/firebase';
+import IPageProps from '../interfaces/page';
+import { initialState, UserDetails } from '../Store/rootSlice';
+import { AppDispatch } from '../Store/store';
 
 const ResultPage: React.FunctionComponent<IPageProps> = props => {
-    const location = useLocation()
+    const location = useLocation();
+    const dispatch: AppDispatch = useDispatch();
+    const {push} = useHistory()
 
     const details = useSelector<UserDetails, UserDetails['yourDetails']>((state) => state.yourDetails)
-    const {firstName, lastName, dob, gender, phoneNumber, annualIncome, address} = details
-
+    const {firstName, lastName, dob, gender, phoneNumber, annualIncome, address} = details;
+    
+    const handleReset = () => {
+      dispatch({type: "RESET_DETAILS", payload: initialState })
+      push('/')
+    }
     return(
         <>
         <AppBar position="static">
@@ -56,13 +63,15 @@ const ResultPage: React.FunctionComponent<IPageProps> = props => {
       <br/>
       <br/>
       <div className='d-flex align-items-center justify-content-center'>
-      <ul className='text-start d-flex flex-column align-items-start' style={{}}>
+      <ul className='text-start d-flex flex-column align-items-start list-card' style={{}}>
            <li className='list'>First Name: {firstName}</li>
            <li className='list'>Last Name: {lastName}</li>
            <li className='list'>DOB: {dob}</li>
            <li className='list'>Gender: {gender}</li>
            <li className='list'>Phone Number: {phoneNumber}</li>
+           <li className='list'>Annual Income: {annualIncome} LPA</li>
            <li className='list'>Address:  doorNo : {address.doorNo} , street: {address.street}, Zip Code: {address.zipCode}</li>
+           <button type='button' className='submit-button' onClick={handleReset} >Reset</button>
         </ul>
         </div>
     </div>
