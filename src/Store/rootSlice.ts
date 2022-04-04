@@ -7,7 +7,7 @@ export interface UserDetails {
         lastName: string,
         dob: string,
         gender: string,
-        annualIncome: string,
+        annualIncome: number,
         panNumber: string,
         address: {doorNo: string, street:string, zipCode: string},
         phoneNumber: string
@@ -22,7 +22,7 @@ export interface Step1 {
 
 export interface Step2 {
     panNumber : string,
-    annualIncome: string,
+    annualIncome: number,
     phoneNumber: string,
     dob: string,
     gender:string,
@@ -43,7 +43,7 @@ export const initialState = {
     lastName: '',
     dob: '',
     gender: '',
-    annualIncome: '',
+    annualIncome: 0,
     panNumber: '',
     address: {doorNo:'', street:'', zipCode: ''},
     phoneNumber: ''

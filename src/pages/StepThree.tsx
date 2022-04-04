@@ -1,21 +1,20 @@
+import React, { useEffect } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Box } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
+import TextField from '@mui/material/TextField';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import React, { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import { Label } from 'reactstrap';
 import '../components/Styles/styles.css';
 import { auth } from '../config/firebase';
 import IPageProps from '../interfaces/page';
 import { Step3, UserDetails } from '../Store/rootSlice';
 import { AppDispatch } from '../Store/store';
-import TextField from '@mui/material/TextField';
 import { Stepper } from './Stepper';
 
 
@@ -73,7 +72,6 @@ const StepThree: React.FunctionComponent<IPageProps> = props => {
                 Welcome Home {auth.currentUser?.email}<br />
             </p>
             <Stepper />
-      
       <br/>
       <br/>
 

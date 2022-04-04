@@ -9,7 +9,7 @@ import TextField from '@mui/material/TextField';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import React, { useEffect, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm, Controller} from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { Label } from 'reactstrap';
@@ -26,7 +26,7 @@ const StepTwoPage: React.FunctionComponent<IPageProps> = props => {
     const [value, setValue] = React.useState<number>(10);
     const details = useSelector<UserDetails, UserDetails['yourDetails']>((state) => state.yourDetails)
     const {firstName, lastName,dob, gender, panNumber, annualIncome} = details
-    const { handleSubmit, formState: { errors },  register } = useForm<Step2>({
+    const { handleSubmit, formState: { errors },  register, control } = useForm<Step2>({
         defaultValues: {dob, gender, panNumber}
       });
       const { push } = useHistory();
@@ -123,9 +123,9 @@ const StepTwoPage: React.FunctionComponent<IPageProps> = props => {
         id='gender'
         row
       >
-        <FormControlLabel name='gender'  className='label' value="female" control={<Radio />} label="Female" />
-        <FormControlLabel name='gender'   className='label' value="male" control={<Radio />} label="Male" />
-        <FormControlLabel  name='gender' className='label' value="other" control={<Radio />} label="Other" />
+        <FormControlLabel  className='label' value="female" control={<Radio />} label="Female" />
+        <FormControlLabel   className='label' value="male" control={<Radio />} label="Male" />
+        <FormControlLabel   className='label' value="other" control={<Radio />} label="Other" />
       </RadioGroup>
 </div>
 <div className='w-100 d-flex flex-column'>
@@ -139,6 +139,7 @@ const StepTwoPage: React.FunctionComponent<IPageProps> = props => {
         min={10}
         max={50}
       />
+
   
 </div>
 <br/>

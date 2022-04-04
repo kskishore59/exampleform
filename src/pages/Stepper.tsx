@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link, useLocation } from 'react-router-dom';
 
 type Props = {}
@@ -22,4 +21,4 @@ export const Stepper = (props: Props) => {
   )
 }
 
-export {}
+export { };
